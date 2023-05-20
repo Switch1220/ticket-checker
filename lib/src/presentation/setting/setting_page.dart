@@ -15,7 +15,15 @@ class SettingPage extends StatelessWidget {
       ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        children: const [Tile()],
+        children: [
+          Tile(
+            title: 'Advanced',
+            leading: const Icon(Icons.more_horiz_sharp),
+            trailing: const Icon(Icons.navigate_next),
+            onTap: () => router
+                .push('${SettingPage.routeName}/${AdvancedTab.routeName}'),
+          )
+        ],
       ),
       floatingActionButton: FCButton(
         icon: const Icon(Icons.home_filled),
@@ -27,17 +35,25 @@ class SettingPage extends StatelessWidget {
 }
 
 class Tile extends StatelessWidget {
-  const Tile({super.key});
+  final String title;
+  final Widget? leading;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+  const Tile(
+      {super.key,
+      required this.title,
+      this.leading,
+      this.trailing,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        title: const Text('Advanced'),
-        leading: const Icon(Icons.more_horiz_sharp),
-        trailing: const Icon(Icons.navigate_next),
-        onTap: () =>
-            router.push('${SettingPage.routeName}/${AdvancedTab.routeName}'),
+        title: Text(title),
+        leading: leading,
+        trailing: trailing,
+        onTap: onTap,
       ),
     );
   }
@@ -49,6 +65,20 @@ class AdvancedTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: SafeArea(
+        child: ListView(
+          children: [
+            Tile(
+              title: 'Url',
+              trailing: IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
